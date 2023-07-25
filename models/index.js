@@ -38,5 +38,7 @@ class Database {
     }
   }
 }
+const database = new Database();
+database.connect();
 
-module.exports = Database;
+module.exports = database;
