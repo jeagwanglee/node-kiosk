@@ -1,16 +1,16 @@
 # item 모델 생성
-npx sequelize model:generate --name item --attributes name:string,option_id:integer,price:integer,type:enum,amount:integer
+npx sequelize model:generate --name Item --attributes name:string,option_id:integer,price:integer,type:enum,amount:integer
 
 
 # option 모델 생성
-npx sequelize model:generate --name option --attributes extra_price:integer,shot_price:integer,hot:boolean
+npx sequelize model:generate --name Option --attributes extra_price:integer,shot_price:integer,hot:boolean
 
 
 # order_item 모델 생성
-npx sequelize model:generate --name order_item --attributes item_id:integer,amount:integer
+npx sequelize model:generate --name OrderItem --attributes item_id:integer,amount:integer
 
 # item_order_customer 모델 생성
-npx sequelize model:generate --name item_order_customer --attributes item_id:integer,order_customer_id:integer,amount:integer
+npx sequelize model:generate --name ItemOrderCustomer --attributes item_id:integer,order_customer_id:integer,amount:integer
 
 # order_customer 모델 생성
-npx sequelize model:generate --name order_customer --attributes state:boolean
+npx sequelize model:generate --name OrderCustomer --attributes state:boolean
