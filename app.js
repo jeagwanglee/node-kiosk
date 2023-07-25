@@ -1,7 +1,7 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
+const itemsRouter = require('./routes/items.route.js');
 const Database = require('./models');
-const database = new Database();
-database.connect();
 
 class ExpressApp {
   constructor() {
@@ -10,6 +10,9 @@ class ExpressApp {
   }
 
   setup() {
+    this.app.use(express.json());
+    this.app.use(cookieParser());
+    this.app.use('/api', [itemsRouter]);
     this.app.get('/', (req, res) => {
       res.send('Hello, World!');
     });
