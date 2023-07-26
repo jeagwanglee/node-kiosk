@@ -7,7 +7,7 @@ npx sequelize model:generate --name Option --attributes extra_price:integer,shot
 
 
 # order_item 모델 생성
-npx sequelize model:generate --name OrderItem --attributes item_id:integer,amount:integer
+npx sequelize model:generate --name OrderItem --attributes item_id:integer,amount:integer,state:integer
 
 # item_order_customer 모델 생성
 npx sequelize model:generate --name ItemOrderCustomer --attributes item_id:integer,order_customer_id:integer,amount:integer
