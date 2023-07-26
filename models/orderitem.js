@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.Item, {
+        targetKey: 'id',
+        foreignKey: 'item_id',
+      });
     }
   }
   OrderItem.init(
@@ -30,6 +34,7 @@ module.exports = (sequelize, DataTypes) => {
       state: {
         allowNull: false,
         type: DataTypes.INTEGER,
+        defaultValue: 0,
       },
       createdAt: {
         allowNull: false,
