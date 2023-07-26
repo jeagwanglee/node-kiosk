@@ -12,7 +12,7 @@ class ExpressApp {
   setup() {
     this.app.use(express.json());
     this.app.use(cookieParser());
-    this.app.use('/api', [itemsRouter]);
+    this.app.use('/api', [itemsRouter, OrderItemsRouter]);
     this.app.get('/', (req, res) => {
       res.send('Hello, World!');
     });
