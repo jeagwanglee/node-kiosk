@@ -10,4 +10,8 @@ router.get('/items', itemsController.getAllItems);
 
 router.get('/items/:type', itemsController.getItemsByType);
 
+router.delete('/items/:id', itemsController.deleteItem);
+
+router.delete('/items/:id/confirmation', itemsController.deleteItemByConfirm);
+
 module.exports = router;

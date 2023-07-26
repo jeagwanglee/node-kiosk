@@ -39,5 +39,32 @@ class ItemsController {
       res.status(500).json({ message });
     }
   };
+
+  deleteItem = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+      const result = await this.itemsService.destroyItem(id);
+      res.json(result);
+    } catch (error) {
+      const { status, message } = error;
+      if (status) return res.status(status).json({ message });
+      res.status(500).json({ message });
+    }
+  };
+
+  deleteItemByConfirm = async (req, res) => {
+    const { id } = req.params;
+    const { userConfirmed } = req.body;
+
+    try {
+      const result = await this.itemsService.destroyItemByConfirm(id, userConfirmed);
+      res.json(result);
+    } catch (error) {
+      const { status, message } = error;
+      if (status) return res.status(status).json({ message });
+      res.status(500).json({ message });
+    }
+  };
 }
 module.exports = ItemsController;

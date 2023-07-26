@@ -15,5 +15,14 @@ class ItemsRepository {
     const items = await Item.findAll({ where: { type } });
     return items;
   };
+
+  findOneItem = async (id) => {
+    const amount = await Item.findOne({ where: { id } });
+    return amount;
+  };
+
+  destroyItem = async (id) => {
+    await Item.destroy({ where: { id } });
+  };
 }
 module.exports = ItemsRepository;
