@@ -1,7 +1,6 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const itemsRouter = require('./routes/items.route.js');
-const Database = require('./models');
 
 class ExpressApp {
   constructor() {

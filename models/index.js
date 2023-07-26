@@ -11,34 +11,38 @@ const db = {};
 
 class Database {
   constructor() {
+    this.db = {};
+    this.setupDatabase();
+  }
+
+  setupDatabase() {
+    let sequelize;
     if (config.use_env_variable) {
-      this.sequelize = new Sequelize(process.env[config.use_env_variable], config);
+      sequelize = new Sequelize(process.env[config.use_env_variable], config);
     } else {
-      this.sequelize = new Sequelize(config.database, config.username, config.password, config);
+      sequelize = new Sequelize(config.database, config.username, config.password, config);
     }
 
-    this.db = db;
+    fs.readdirSync(__dirname)
+      .filter((file) => {
+        return file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js' && file.indexOf('.test.js') === -1;
+      })
+      .forEach((file) => {
+        const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+        // db에 모델이름:모델 모듈
+        this.db[model.name] = model;
+      });
 
-    Object.keys(db).forEach((modelName) => {
-      if (db[modelName].associate) {
-        db[modelName].associate(db);
+    //  연관관계
+    Object.keys(this.db).forEach((modelName) => {
+      if (this.db[modelName].associate) {
+        this.db[modelName].associate(this.db);
       }
     });
 
-    db.sequelize = this.sequelize;
-    db.Sequelize = Sequelize;
-  }
-
-  async connect() {
-    try {
-      await this.sequelize.authenticate();
-      console.log('Connection established successfully.');
-    } catch (error) {
-      console.error('Unable to connect to the database:', error);
-    }
+    this.db.sequelize = sequelize;
+    this.db.Sequelize = Sequelize;
   }
 }
 const database = new Database();
-database.connect();
-
-module.exports = database;
+module.exports = database.db;

@@ -17,37 +17,39 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
       },
       name: {
         allowNull: false,
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
       },
       option_id: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         defaultValue: 0,
       },
       price: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
       },
       type: {
         allowNull: false,
-        type: Sequelize.ENUM,
+        type: DataTypes.ENUM,
+        values: ['coffee', 'juice', 'food', 'snack'],
       },
       amount: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
       },
-      created_at: {
+      createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
       },
-      updated_at: {
+      updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
       },
     },
