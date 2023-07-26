@@ -20,6 +20,7 @@ module.exports = {
       state: {
         allowNull: false,
         type: Sequelize.INTEGER,
+        defaultValue: 0,
       },
       createdAt: {
         allowNull: false,
