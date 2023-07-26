@@ -56,5 +56,13 @@ class ItemsService {
     await this.itemsRepository.destroyItem(id);
     return { message: '상품이 삭제되었습니다.' };
   };
+
+  updateItem = async (id, name, price) => {
+    if (!name) throw new HttpException(412, '이름을 입력해주세요');
+
+    if (price < 0) throw new HttpException(412, '알맞은 가격을 입력해주세요');
+
+    await this.itemsRepository.updateItem(id, name, price);
+  };
 }
 module.exports = ItemsService;

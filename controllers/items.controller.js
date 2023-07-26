@@ -66,5 +66,19 @@ class ItemsController {
       res.status(500).json({ message });
     }
   };
+
+  updateItem = async (req, res) => {
+    const { id } = req.params;
+    const { name, price } = req.body;
+
+    try {
+      await this.itemsService.updateItem(id, name, price);
+      res.json({ message: '상품이 수정되었습니다.' });
+    } catch (error) {
+      const { status, message } = error;
+      if (status) return res.status(status).json({ message });
+      res.status(500).json({ message });
+    }
+  };
 }
 module.exports = ItemsController;

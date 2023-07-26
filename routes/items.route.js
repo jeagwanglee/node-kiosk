@@ -14,4 +14,6 @@ router.delete('/items/:id', itemsController.deleteItem);
 
 router.delete('/items/:id/confirmation', itemsController.deleteItemByConfirm);
 
+router.put('/items/:id', itemsController.updateItem);
+
 module.exports = router;
