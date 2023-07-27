@@ -16,5 +16,19 @@ class OrderItemsController {
       res.status(500).json({ message });
     }
   };
+
+  putOrderItem = async (req, res) => {
+    const { item_id, id } = req.params;
+    const { state } = req.body;
+
+    try {
+      await this.orderItemsService.updateOrderItemState(item_id, state, id);
+      res.json({ message: '발주 상태가 수정되었습니다.' });
+    } catch (error) {
+      const { status, message } = error;
+      if (status) return res.status(status).json({ message });
+      res.status(500).json({ message });
+    }
+  };
 }
 module.exports = OrderItemsController;
