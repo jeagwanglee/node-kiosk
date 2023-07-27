@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
       },
       amount: {
+        allowNull: false,
         type: DataTypes.INTEGER,
       },
       state: {
