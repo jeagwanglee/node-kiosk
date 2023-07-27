@@ -28,5 +28,9 @@ class ItemsRepository {
   updateItem = async (id, name, price) => {
     await Item.update({ name, price }, { where: { id } });
   };
+
+  updateItemAmount = async (id, amount) => {
+    await Item.update({ amount }, { where: { id } });
+  };
 }
 module.exports = ItemsRepository;
