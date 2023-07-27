@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
         sourceKey: 'id',
         foreignKey: 'item_id',
       });
-      this.hasMany(models.ItemOrderCustomer, {
+      this.hasOne(models.ItemOrderCustomer, {
         sourceKey: 'id',
         foreignKey: 'item_id',
       });
