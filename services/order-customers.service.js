@@ -14,9 +14,10 @@ class OrderCustomersService {
 
     await Promise.all(
       itemOrderDetails.map(async (order) => {
-        const { item_id, amount, option, price } = order;
+        const { item_id, amount, option, productPrice } = order;
+        const price = productPrice + option.extra_price + option.shot_price;
         await this.orderCustomersRepository.createItemOrderCustomer(item_id, order_customer_id, amount, option, price);
-        totalPrice += (price + option.extra_price + option.shot_price) * amount;
+        totalPrice += price * amount;
       })
     );
     return totalPrice;
