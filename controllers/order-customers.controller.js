@@ -11,10 +11,37 @@ class OrderCustomersController {
     const { itemOrderDetails } = req.body;
 
     try {
-      await this.orderCustomersService.createOrderCustomer(itemOrderDetails);
-      res.json({ message: '주문을 완료했습니다.' });
+      const totalPrice = await this.orderCustomersService.createOrderCustomer(itemOrderDetails);
+      res.json({ totalPrice });
     } catch (error) {
       console.log(error);
+      const { status, message } = error;
+      if (status) return res.status(status).json({ message });
+      res.status(500).json({ message });
+    }
+  };
+
+  completeOrderCustomer = async (req, res) => {
+    const { id } = req.params;
+    //이 id는 order_customer의 Id
+
+    try {
+      await this.orderCustomersService.completeOrderCustomer(id);
+      res.json({ message: '주문이 수정되었습니다.' });
+    } catch (error) {
+      const { status, message } = error;
+      if (status) return res.status(status).json({ message });
+      res.status(500).json({ message });
+    }
+  };
+
+  cancelOrderCustomer = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+      await this.orderCustomersService.cancelOrderCustomer(id);
+      res.json({ message: '주문이 취소되었습니다.' });
+    } catch (error) {
       const { status, message } = error;
       if (status) return res.status(status).json({ message });
       res.status(500).json({ message });

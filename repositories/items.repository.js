@@ -30,7 +30,7 @@ class ItemsRepository {
   };
 
   updateItemAmount = async (id, amount) => {
-    await Item.update({ amount }, { where: { id } });
+    await Item.increment({ amount }, { where: { id } });
   };
 }
 module.exports = ItemsRepository;

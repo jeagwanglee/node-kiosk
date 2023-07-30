@@ -9,5 +9,14 @@ class OrderCustomersRepository {
   createItemOrderCustomer = async (item_id, order_customer_id, amount, option, price) => {
     await ItemOrderCustomer.create({ item_id, order_customer_id, amount, option, price });
   };
+
+  findOrderCustomer = async (id) => {
+    const order = await OrderCustomer.findOne({ where: { id } });
+    return order;
+  };
+
+  deleteOrderCustomer = async (id) => {
+    await OrderCustomer.destroy({ where: { id } });
+  };
 }
 module.exports = OrderCustomersRepository;
