@@ -1,7 +1,7 @@
 'use strict';
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Item extends Model {
+  class Option extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -9,21 +9,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.hasMany(models.OrderItem, {
+      this.hasMany(models.Item, {
         sourceKey: 'id',
-        foreignKey: 'item_id',
-      });
-      this.hasOne(models.ItemOrderCustomer, {
-        sourceKey: 'id',
-        foreignKey: 'item_id',
-      });
-      this.belongsTo(models.Option, {
-        targetKey: 'id',
         foreignKey: 'option_id',
       });
     }
   }
-  Item.init(
+  Option.init(
     {
       id: {
         allowNull: false,
@@ -31,28 +23,17 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      name: {
-        allowNull: false,
-        type: DataTypes.STRING,
-      },
-      option_id: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
-        defaultValue: 0,
-      },
-      price: {
+      extra_price: {
         allowNull: false,
         type: DataTypes.INTEGER,
       },
-      type: {
-        allowNull: false,
-        type: DataTypes.ENUM,
-        values: ['coffee', 'juice', 'food', 'snack'],
-      },
-      amount: {
+      shot_price: {
         allowNull: false,
         type: DataTypes.INTEGER,
-        defaultValue: 0,
+      },
+      hot: {
+        allowNull: false,
+        type: DataTypes.BOOLEAN,
       },
       createdAt: {
         allowNull: false,
@@ -67,8 +48,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: 'Item',
+      modelName: 'Option',
     }
   );
-  return Item;
+  return Option;
 };
