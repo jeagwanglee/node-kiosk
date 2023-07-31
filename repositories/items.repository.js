@@ -1,8 +1,8 @@
 const { Item } = require('../models');
 
 class ItemsRepository {
-  createItem = async (name, price, type) => {
-    const item = await Item.create({ name, price, type });
+  createItem = async (name, price, type, option_id) => {
+    const item = await Item.create({ name, price, type, option_id });
     return item;
   };
 

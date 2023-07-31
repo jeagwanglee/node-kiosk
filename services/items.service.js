@@ -9,7 +9,7 @@ const itemType = {
 class ItemsService {
   itemsRepository = new ItemsRepository();
 
-  createItem = async (name, price, type) => {
+  createItem = async (name, price, type, option_id) => {
     if (!name) throw new HttpException(412, '이름을 입력해주세요');
 
     if (!price) throw new HttpException(412, '가격을 입력해주세요');
@@ -18,7 +18,7 @@ class ItemsService {
       throw new HttpException(412, '알맞은 타입을 지정해주세요');
     }
 
-    const item = await this.itemsRepository.createItem(name, price, type);
+    const item = await this.itemsRepository.createItem(name, price, type, option_id);
     return item;
   };
 

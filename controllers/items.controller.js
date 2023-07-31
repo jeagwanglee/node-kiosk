@@ -4,10 +4,10 @@ class ItemsController {
   itemsService = new ItemsService();
 
   postItem = async (req, res) => {
-    const { name, price, type } = req.body;
+    const { name, price, type, option_id } = req.body;
 
     try {
-      const item = await this.itemsService.createItem(name, price, type);
+      const item = await this.itemsService.createItem(name, price, type, option_id);
       res.json({ item });
     } catch (error) {
       const { status, message } = error;
