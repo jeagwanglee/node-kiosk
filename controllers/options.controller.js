@@ -7,8 +7,8 @@ class OptionsController {
     const { extra_price, shot_price, hot } = req.body;
 
     try {
-      await this.optionsService.createOption(extra_price, shot_price, hot);
-      res.json({ message: '옵션이 추가되었습니다.' });
+      const option = await this.optionsService.createOption(extra_price, shot_price, hot);
+      res.json({ option });
     } catch (error) {
       const { status, message } = error;
       if (status) return res.status(status).json({ message });

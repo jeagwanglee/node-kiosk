@@ -21,4 +21,9 @@ const cacheOptions = async (req, res, next) => {
   }
 };
 
-module.exports = { myCache, cacheOptions };
+const updateOptions = () => {
+  myCache.del(process.env.CACHE_KEY);
+  cacheOptions();
+};
+
+module.exports = { myCache, cacheOptions, updateOptions };
