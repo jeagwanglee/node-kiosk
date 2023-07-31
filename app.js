@@ -1,8 +1,9 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const itemsRouter = require('./routes/items.route.js');
-const OrderItemsRouter = require('./routes/order-items.route.js');
+const orderItemsRouter = require('./routes/order-items.route.js');
 const orderCustomersRouter = require('./routes/order-customers.route.js');
+const optionsRouter = require('./routes/options.route.js');
 
 class ExpressApp {
   constructor() {
@@ -13,7 +14,7 @@ class ExpressApp {
   setup() {
     this.app.use(express.json());
     this.app.use(cookieParser());
-    this.app.use('/api', [itemsRouter, OrderItemsRouter, orderCustomersRouter]);
+    this.app.use('/api', [itemsRouter, orderItemsRouter, orderCustomersRouter, optionsRouter]);
     this.app.get('/', (req, res) => {
       res.send('Hello, World!');
     });
