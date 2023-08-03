@@ -1,9 +1,11 @@
+require('dotenv').config();
 const OrderCustomersRepository = require('../repositories/order-customers.repository');
 const ItemOrderCustomersRepository = require('../repositories/item-order-customers.repository');
 const ItemsRepository = require('../repositories/items.repository');
 const HttpException = require('../utils/error');
 const { sequelize } = require('../models');
 const { Transaction } = require('sequelize');
+const { myCache } = require('../routeCache.js');
 
 class OrderCustomersService {
   orderCustomersRepository = new OrderCustomersRepository();
@@ -17,15 +19,25 @@ class OrderCustomersService {
     const order_customer_id = orderCustomer.id;
     let totalPrice = 0;
 
+    const options = myCache.get(process.env.CACHE_KEY);
+    const optionsById = options.reduce((acc, option) => {
+      acc[option.id] = option;
+      return acc;
+    }, {});
+
     await Promise.all(
       itemOrderDetails.map(async (order) => {
-        const { item_id, amount, option, productPrice } = order;
-        const price = productPrice + option.extra_price + option.shot_price;
+        const { item_id, amount, itemOption, productPrice } = order;
+        const { option_id, isExtraPrice, shotAmount } = itemOption;
+        // 옵션 (가격) 조회
+        const option = optionsById[option_id];
+        // 주문당 전체 가격
+        const price = productPrice + option.extra_price * isExtraPrice + option.shot_price * shotAmount;
         await this.itemOrderCustomersRepository.createItemOrderCustomer(
           item_id,
           order_customer_id,
           amount,
-          option,
+          itemOption,
           price
         );
         totalPrice += price * amount;
@@ -50,7 +62,7 @@ class OrderCustomersService {
       for (const itemOrderCustomer of itemOrderCustomers) {
         const { item_id, amount } = itemOrderCustomer;
         await this.orderCustomersRepository.updateOrderCustomerState(id, state, t);
-        await this.itemsRepository.updateItemAmount(item_id, -amount, { transaction: t });
+        await this.itemsRepository.updateItemAmount(item_id, -amount, t);
       }
 
       return await t.commit();
