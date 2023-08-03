@@ -6,8 +6,8 @@ class OrderItemsRepository {
     return order;
   };
 
-  updateOrderItemState = async (id, nextState) => {
-    await OrderItem.update({ state: nextState }, { where: { id } });
+  updateOrderItemState = async (id, nextState, t) => {
+    await OrderItem.update({ state: nextState }, { where: { id } }, { transaction: t });
   };
 
   findOrderItemById = async (id) => {
