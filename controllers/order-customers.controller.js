@@ -11,8 +11,8 @@ class OrderCustomersController {
     const { itemOrderDetails } = req.body;
 
     try {
-      const totalPrice = await this.orderCustomersService.createOrderCustomer(itemOrderDetails);
-      res.json({ totalPrice });
+      const { order_customer_id, totalPrice } = await this.orderCustomersService.createOrderCustomer(itemOrderDetails);
+      res.json({ order_customer_id, totalPrice });
     } catch (error) {
       console.log(error);
       const { status, message } = error;

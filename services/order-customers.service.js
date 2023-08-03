@@ -17,6 +17,7 @@ class OrderCustomersService {
     // body로 받은 item_id, amount로 하위 주문 생성  itemOrderDetails = [{item_id:1, amount: 10}, {item_id: 2, amount:20}, ...]
     const orderCustomer = await this.orderCustomersRepository.createOrderCustomer();
     const order_customer_id = orderCustomer.id;
+    // 주문 전체 가격
     let totalPrice = 0;
 
     const options = myCache.get(process.env.CACHE_KEY);
@@ -31,7 +32,7 @@ class OrderCustomersService {
         const { option_id, isExtraPrice, shotAmount } = itemOption;
         // 옵션 (가격) 조회
         const option = optionsById[option_id];
-        // 주문당 전체 가격
+        // 상품당 옵션 포함 가격 : price
         const price = productPrice + option.extra_price * isExtraPrice + option.shot_price * shotAmount;
         await this.itemOrderCustomersRepository.createItemOrderCustomer(
           item_id,
@@ -43,7 +44,7 @@ class OrderCustomersService {
         totalPrice += price * amount;
       })
     );
-    return totalPrice;
+    return { order_customer_id, totalPrice };
     //주문한 모든 상품 가격의 합을 고객에게 반환해주세요.
     // 가격 : item.price , * amount
   };
