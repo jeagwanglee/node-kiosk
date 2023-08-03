@@ -1,5 +1,8 @@
+require('dotenv').config();
 const ItemsRepository = require('../repositories/items.repository');
 const HttpException = require('../utils/error');
+const { myCache } = require('../routeCache.js');
+
 const itemType = {
   COFFEE: 'coffee',
   JUICE: 'juice',
@@ -24,7 +27,19 @@ class ItemsService {
 
   findAllItems = async () => {
     const items = await this.itemsRepository.findAllItems();
-    return items;
+    // 메모리에서 옵션을 조회
+    const options = myCache.get(process.env.CACHE_KEY);
+    // 각 상품에 맞는 옵션을 붙여서 반환
+    const optionsById = options.reduce((acc, option) => {
+      acc[option.id] = option;
+      return acc;
+    }, {});
+    const itemsWithOptions = items.map((item) => {
+      const option = optionsById[item.option_id] || null;
+      return { ...item.toJSON(), option };
+    });
+
+    return itemsWithOptions;
   };
 
   findItemsByType = async (type) => {
@@ -33,7 +48,17 @@ class ItemsService {
     }
 
     const items = await this.itemsRepository.findItemsByType(type);
-    return items;
+
+    const options = myCache.get(process.env.CACHE_KEY);
+    const optionsById = options.reduce((acc, option) => {
+      acc[option.id] = option;
+      return acc;
+    }, {});
+    const itemsWithOptions = items.map((item) => {
+      const option = optionsById[item.option_id] || null;
+      return { ...item.toJSON(), option };
+    });
+    return itemsWithOptions;
   };
 
   destroyItem = async (id) => {
