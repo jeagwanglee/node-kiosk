@@ -29,8 +29,8 @@ class ItemsRepository {
     await Item.update({ name, price }, { where: { id } });
   };
 
-  updateItemAmount = async (id, amount) => {
-    await Item.increment({ amount }, { where: { id } });
+  updateItemAmount = async (id, amount, t) => {
+    await Item.increment({ amount }, { where: { id } }, { transaction: t });
   };
 }
 module.exports = ItemsRepository;

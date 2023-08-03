@@ -59,11 +59,11 @@ class OrderItemsService {
     if (currentState === orderItemState.PENDING && nextState === orderItemState.COMPLETED) {
       try {
         // 상태 업데이트
-        await this.orderItemsRepository.updateOrderItemState(id, nextState, { transaction: t });
+        await this.orderItemsRepository.updateOrderItemState(id, nextState, t);
 
         // 현재 수량 추가
         const amount = item.amount + orderItem.amount;
-        await this.itemsRepository.updateItemAmount(item_id, amount, { transaction: t });
+        await this.itemsRepository.updateItemAmount(item_id, amount, t);
         return await t.commit();
       } catch (error) {
         await t.rollback();
@@ -85,9 +85,9 @@ class OrderItemsService {
       try {
         // 현재수량 >= 발주 수량  : 트랜잭션 적용
         // 상태 수정, 현재 수량 감소
-        await this.orderItemsRepository.updateOrderItemState(id, nextState, { transaction: t });
+        await this.orderItemsRepository.updateOrderItemState(id, nextState, t);
         const amount = item.amount - orderItem.amount;
-        await this.itemsRepository.updateItemAmount(item_id, amount, { transaction: t });
+        await this.itemsRepository.updateItemAmount(item_id, amount, t);
         return await t.commit();
       } catch (error) {
         await t.rollback();

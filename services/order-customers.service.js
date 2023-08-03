@@ -49,7 +49,7 @@ class OrderCustomersService {
       // item_id 각각에대해 amount감소
       for (const itemOrderCustomer of itemOrderCustomers) {
         const { item_id, amount } = itemOrderCustomer;
-        await this.orderCustomersRepository.updateOrderCustomerState(id, state, { transaction: t });
+        await this.orderCustomersRepository.updateOrderCustomerState(id, state, t);
         await this.itemsRepository.updateItemAmount(item_id, -amount, { transaction: t });
       }
 
@@ -73,9 +73,9 @@ class OrderCustomersService {
       if (order.state) {
         throw new HttpException(400, '완료된 주문은 취소할 수 없습니다.');
       }
-      await this.orderCustomersRepository.deleteOrderCustomer(id, { transaction: t });
+      await this.orderCustomersRepository.deleteOrderCustomer(id, t);
       // order_customer_id 가 있는 ItemOrderCustomer 레코드들을 전부 삭제
-      await this.itemOrderCustomersRepository.deleteItemOrderCustomers(id, { transaction: t });
+      await this.itemOrderCustomersRepository.deleteItemOrderCustomers(id, t);
     } catch (error) {
       await t.rollback();
       throw new HttpException(500, error.message);
