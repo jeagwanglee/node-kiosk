@@ -25,6 +25,11 @@ class ExpressApp {
       const options = myCache.get(process.env.CACHE_KEY);
       res.json({ options });
     });
+
+    this.app.use((err, req, res, next) => {
+      const { status, message } = err;
+      res.status(status || 500).json({ message });
+    });
   }
 
   start(port) {
